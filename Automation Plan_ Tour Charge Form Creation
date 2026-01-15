@@ -1,0 +1,82 @@
+# Automation Plan: Tour Charge Form Creation
+
+## 1. Objective
+
+To automate the process of creating tour charge entries in the QualityB2BPackage system. This automation will read data from an Excel file, perform necessary calculations, and submit the form on the website, significantly reducing manual effort and the possibility of errors.
+
+## 2. Prerequisites
+
+- **An active user session** in the QualityB2BPackage system. The automation will need to be run in a context where the user is already logged in.
+
+- **An Excel file** with the following columns:
+  - `group_code`
+  - `program_code`
+  - `total_pax`
+
+## 3. Recommended Automation Tool
+
+Based on your preference, we recommend using **n8n** to build this automation workflow. n8n provides a visual workflow editor that is well-suited for this type of task, and it can be configured to interact with web pages and process data from various sources.
+
+## 4. Detailed Automation Steps
+
+The automation workflow will consist of the following steps:
+
+### Step 1: Read Data from Excel
+
+The workflow will start by reading the data from the provided Excel file. Each row in the Excel file will be processed as a separate item in the workflow.
+
+### Step 2: Login to the Website
+
+The first step in the browser automation will be to log in to the website.
+
+| Field | Action | Value |
+| --- | --- | --- |
+| URL | Navigate | `https://www.qualityb2bpackage.com/` |
+| Username | Input Text | noi |
+| Password | Input Text | PrayuthChanocha112|
+| Login Button | Click |  |
+
+### Step 3: Navigate to the Order Creation Page
+
+After a successful login, the automation will navigate to the charge creation page.
+
+| Field | Action | Value |
+| --- | --- | --- |
+| URL | Navigate | `https://www.qualityb2bpackage.com/charges_group/create` |
+
+### Step 4: Form Filling and Submission
+
+For each item (row ) from the Excel file, the automation will perform the following actions on the form:
+
+| Field | HTML Name/ID | Action | Value |
+| --- | --- | --- | --- |
+| **Tour Program** | `package` | Select from Dropdown | From Excel `program_code` |
+| **Tour Code** | (To be identified) | Select from Dropdown | From Excel `group_code` |
+| **Description** | (To be identified) | Input Text | "ค่าเอกสารออกทัวร์" |
+| **Amount** | (To be identified) | Input Text | `50 * total_pax` (calculated) |
+| **Payment Date** | (To be identified) | Set Date | Current Date + 7 days |
+| **Save Button** |  | Click |  |
+
+### Step 5: Loop and Error Handling
+
+The workflow will loop through all the entries in the Excel file. It should also include error handling to manage cases where a form submission fails or an entry is invalid. We recommend logging errors to a separate file for review.
+
+## 5. Excel File Format
+
+The input Excel file must have the following structure:
+
+| group_code | program_code | total_pax |
+| --- | --- | --- |
+| 2UCKG4NCKGFD251226 | 2UCKG-FD003 | 25 |
+| ... | ... | ... |
+
+## 6. Calculations
+
+The `Amount` field will be calculated using the following formula:
+
+`Amount = 50 * total_pax`
+
+The `Payment Date` will be calculated as:
+
+`Payment Date = Current Date + 7 days`
+
