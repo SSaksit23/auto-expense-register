@@ -1,0 +1,24 @@
+graph TD
+    subgraph "External Environment"
+        A[External Agent / User] -- MCP Call --> B{MCP Server}
+    end
+
+    subgraph "Automation Application"
+        B -- Triggers --> C{CrewAI Orchestrator}
+        C -- Manages --> D[Crew of Agents]
+        
+        D -- Uses --> E{Browser Tools}
+        E -- Controls --> F[Playwright Browser]
+    end
+
+    subgraph "Target Website"
+        F -- Interacts with --> G[qualityb2bpackage.com]
+    end
+
+    style A fill:#cde4ff
+    style B fill:#cde4ff
+    style C fill:#d5f5e3
+    style D fill:#d5f5e3
+    style E fill:#e8daef
+    style F fill:#e8daef
+    style G fill:#fdebd0
